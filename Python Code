@@ -1,0 +1,32 @@
+import numpy as np
+import matplotlib.pyplot as plt
+import os
+import pandas as pd
+from scipy.fft import fft, fftfreq
+from scipy.fft import rfft, rfftfreq
+file_path = "/Users/jacobjoseph/Downloads/Lab #4.csv"
+df = pd.read_csv(file_path, header=None, names=['t_ms', 'A_0'])
+t_ms = df['t_ms'].values
+A_0 = df['A_0'].values
+t_s = t_ms/1000
+fig, ax = plt.subplots()
+ax.plot(t_s, A_0,color='blue')
+ax.set_xlabel('Time (s)')
+ax.set_ylabel('Analogue Values')
+ax.set_title('Test')
+ax.set_xlim(0,10)
+ax.grid()
+plt.show()
+SAMPLE_RATE = 1000            
+N=len(A_0)
+yf = fft(A_0)
+xf = fftfreq(N, 1 / SAMPLE_RATE)
+fig, ax = plt.subplots()
+ax.plot(xf, np.abs(yf),color='blue')
+ax.set_xlabel('Frequency (Hz)')
+ax.set_ylabel('Amplitude')
+ax.set_title('FFT Test Graph')
+ax.set_xlim(0,10)
+ax.set_ylim(0,1e5)
+ax.grid()
+plt.show()
